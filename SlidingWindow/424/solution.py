@@ -54,9 +54,41 @@ class Solution:
         # return out
         # # time complexity: O(n^2)
 
-        # sliding window
+        # # sliding window
+        # count = {}
+        # res = 0
+        # l = 0
+        #
+        # for r in range(len(s)):
+        #     count[s[r]] = 1 + count.get(s[r], 0)
+        #
+        #     while (r - l + 1) - max(count.values()) > k: #O(26)
+        #         count[s[l]] -= 1
+        #         l += 1
+        #
+        #     res = max(res, r - l + 1)
+        #
+        # return res
+        # # time complexity: O(26n)
 
-        return s
+        # sliding window optimised
+        count = {}
+        res = 0
+        l = 0
+        maxf = 0
+
+        for r in range(len(s)):
+            count[s[r]] = 1 + count.get(s[r], 0)
+            maxf = max(maxf, count[s[r]])
+
+            while (r - l + 1) - maxf > k: # O(1)
+                count[s[l]] -= 1
+                l += 1
+
+            res = max(res, r - l + 1)
+
+        return res
+        # time complexity: O(n)
 
 
 if __name__ == "__main__":
@@ -65,4 +97,4 @@ if __name__ == "__main__":
     print(s.characterReplacement("AABABBA", 1))
     print(s.characterReplacement("AAAA", 0))
     print(s.characterReplacement("ABBB", 2))
-    print(s.characterReplacement("BAAAB", 2)) # expected 5
+    print(s.characterReplacement("BAAAB", 2))  # expected 5
