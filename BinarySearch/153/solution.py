@@ -4,18 +4,34 @@ class Solution:
         # # sol 1
         # return min(nums) # O(n)
 
-        # sol 2, recursively splitting nums in half and finding minimum, #O(log n)
-        return self._fn(nums)
+        # # sol 2, recursively splitting nums in half and finding minimum, #O(log n)
+        # if len(nums) == 1 or nums[0] < nums[-1]:
+        #     return nums[0]
+        #
+        # m = len(nums) // 2
+        # l = nums[0:m]
+        # r = nums[m : len(nums)]
+        #
+        # return min(self.findMin(l), self.findMin(r))
 
-    def _fn(self, nums: list[int]):
-        if len(nums) == 1 or nums[0] < nums[-1]:
-            return nums[0]
+        # sol 3, iterative, #O(log n), pointer approach
+        res = nums[0]
+        l, r = 0, len(nums) - 1
 
-        m = len(nums) // 2
-        l = nums[0:m]
-        r = nums[m : len(nums)]
+        while l <= r:
+            if nums[l] < nums[r]:
+                res = min(res, nums[l])
+                break
 
-        return min(self._fn(l), self._fn(r))
+            m = (l + r) // 2
+            res = min(res, nums[m])
+
+            if nums[l] <= nums[m]:
+                l = m + 1
+            else:
+                r = m - 1
+
+        return res
 
 
 if __name__ == "__main__":
