@@ -1,6 +1,5 @@
 from typing import Optional
 
-
 # Definition for singly-linked list.
 class ListNode:
     def __init__(self, val=0, next=None):
@@ -62,6 +61,15 @@ class Solution:
 if __name__ == "__main__":
     s = Solution()
     head = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5)))))
+    print(head)
+    print(s.reverseList(head))
+
+    head = ListNode(1, ListNode(2))
+    print(head)
+    print(s.reverseList(head))
+
+    head = ListNode()
+    print(head)
     print(s.reverseList(head))
 
     # assert s.reverseList(head) == ListNode(
