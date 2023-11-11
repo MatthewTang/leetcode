@@ -73,16 +73,37 @@ class Solution:
     #
     #     return fn(head, None)
 
-    # recursive approach #2
+    # # recursive approach #2
+    # # tc: O(n), sc: O(n)
+    # def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+    #     def fn(curr: Optional[ListNode], prev: Optional[ListNode]):
+    #         if not curr:
+    #             return prev
+    #         else:
+    #             return fn(curr.next, ListNode(curr.val, prev))
+    #
+    #     return fn(head, None)
+
+    # recursive approach #3, w/o create new nodes
     # tc: O(n), sc: O(n)
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        def fn(curr: Optional[ListNode], prev: Optional[ListNode]):
+        def fn(curr: Optional[ListNode], prevs: list[ListNode]):
             if not curr:
-                return prev
+                return None
             else:
-                return fn(curr.next, ListNode(curr.val, prev))
+                prev = fn(curr.next, prevs)
+                curr.next = None
+                if prev:
+                    prevs.append(prev)
+                    prev.next = curr
 
-        return fn(head, None)
+                return curr
+
+        prevs = []
+        prev = fn(head, prevs)
+        prevs.append(prev)
+        return prevs[0]
+        # return prevs[0] if len(prevs) > 0 else None
 
     # # duplicate the list by recursion
     # def fn(curr: Optional[ListNode]):
@@ -97,19 +118,20 @@ class Solution:
 
 if __name__ == "__main__":
     s = Solution()
-    # head = None
-    # print(s.reverseList(head))
-
-    head = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5)))))
+    head = None
     print(s.reverseList(head))
 
-    # head = ListNode(1, ListNode(2))
-    # print(head)
-    # print(s.reverseList(head))
-    #
-    # head = ListNode()
-    # print(head)
-    # print(s.reverseList(head))
+    head = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5)))))
+    print(head)
+    print(s.reverseList(head))
+
+    head = ListNode(1, ListNode(2))
+    print(head)
+    print(s.reverseList(head))
+
+    head = ListNode()
+    print(head)
+    print(s.reverseList(head))
 
     # assert s.reverseList(head) == ListNode(
     #     5, ListNode(4, ListNode(3, ListNode(2, ListNode(1))))
