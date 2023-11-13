@@ -54,17 +54,35 @@ class Solution:
     #
     #     return dummy.next
 
-
     def reorderList(self, head: Optional[ListNode]) -> None:
         """
         Do not return anything, modify head in-place instead.
         """
-        return head
+        # create array
+        arr = []
+        curr = head
+        while curr:
+            arr.append(curr)
+            curr = curr.next
 
-        
+        mid = len(arr) // 2
+
+        for i in range(mid):
+            n = arr[i]
+            n.next = arr[len(arr) - i - 1]
+
+            n = n.next
+            n.next = arr[i + 1]
+
+        n = arr[mid]
+        n.next = None
+
+        return arr[0]
+
 
 if __name__ == "__main__":
     s = Solution()
     head = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5)))))
     # head = ListNode(1, ListNode(2, ListNode(3, ListNode(4))))
+    # head = ListNode()
     print(s.reorderList(head))
