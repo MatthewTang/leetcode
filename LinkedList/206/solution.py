@@ -47,17 +47,17 @@ class Solution:
     #
     #     return nN
 
-    # # iterative # 3 neetcode, no need create new nodes
-    # def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-    #     curr, prev = head, None
-    #
-    #     while curr:
-    #         nxt = curr.next
-    #         curr.next = prev
-    #         prev = curr
-    #         curr = nxt
-    #     return prev
-    #     # time complexity: O(n), space complexity: O(1)
+    # iterative # 3 neetcode, no need create new nodes
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        curr, prev = head, None
+
+        while curr:
+            nxt = curr.next
+            curr.next = prev
+            prev = curr
+            curr = nxt
+        return prev
+        # time complexity: O(n), space complexity: O(1)
 
     # # recursive approach #1
     # def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
