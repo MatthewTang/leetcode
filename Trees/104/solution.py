@@ -20,14 +20,38 @@ def printTree(root: TreeNode, level=0):
 
 
 class Solution:
+
+    # solution 1
+    # recursive dfs
+    # time: O(n), space: O(h) given h is the height of the tree
+    # def maxDepth(self, root: Optional[TreeNode]) -> int:
+    #     def countD(root: Optional[TreeNode], d: int):
+    #         if not root:
+    #             return d
+    #
+    #         return max(countD(root.left, d + 1), countD(root.right, d + 1))
+    #
+    #     return countD(root, 0)
+
+    # solution 2
+    # queue bfs
     def maxDepth(self, root: Optional[TreeNode]) -> int:
-        def countD(root: Optional[TreeNode], d: int):
-            if not root:
-                return d
+        q = [{"n": root, "l": 1}]
+        m = 0
 
-            return max(countD(root.left, d + 1), countD(root.right, d + 1))
+        while len(q):
+            nxt = q[0]
+            node = nxt["n"]
+            l = nxt["l"]
+            if not node:
+                q.pop(0)
+            else:
+                q.append({"n": node.left, "l": l + 1})
+                q.append({"n": node.right, "l": l + 1})
+                q.pop(0)
+                m = l
 
-        return countD(root, 0)
+        return m
 
 
 if __name__ == "__main__":
@@ -47,6 +71,6 @@ if __name__ == "__main__":
     # printTree(root)
 
     print(solution.maxDepth(root))
-    print(solution.maxDepth(root2))
-    print(solution.maxDepth(root3))
-    print(solution.maxDepth(root4))
+    # print(solution.maxDepth(root2))
+    # print(solution.maxDepth(root3))
+    # print(solution.maxDepth(root4))
