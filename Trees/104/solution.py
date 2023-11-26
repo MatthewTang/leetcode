@@ -1,4 +1,5 @@
 from typing import Optional
+from collections import deque
 
 
 class TreeNode:
@@ -33,25 +34,57 @@ class Solution:
     #
     #     return countD(root, 0)
 
-    # solution 2
-    # queue bfs
+    # # solution 2
+    # # queue bfs
+    # def maxDepth(self, root: Optional[TreeNode]) -> int:
+    #     q = [[root, 1]]
+    #     m = 0
+    #
+    #     while q:
+    #         node, l = q[0]
+    #         if not node:
+    #             q.pop(0)
+    #         else:
+    #             q.append([node.left, l + 1])
+    #             q.append([node.right, l + 1])
+    #             q.pop(0)
+    #             m = l
+    #
+    #     return m
+
+    # # sol 3
+    # # queue bfs w/ deque
+    # def maxDepth(self, root: Optional[TreeNode]) -> int:
+    #     q = deque()
+    #     if root:
+    #         q.append(root)
+    #
+    #     level = 0
+    #
+    #     while q:
+    #         for _ in range(len(q)):
+    #             node = q.popleft()
+    #             if node.left:
+    #                 q.append(node.left)
+    #             if node.right:
+    #                 q.append(node.right)
+    #         level += 1
+    #     return level
+
+    # sol 4
+    # iterative dfs
     def maxDepth(self, root: Optional[TreeNode]) -> int:
-        q = [{"n": root, "l": 1}]
-        m = 0
+        stack = [[root, 1]]
+        out = 0
+        while stack:
+            n, l = stack.pop()
 
-        while len(q):
-            nxt = q[0]
-            node = nxt["n"]
-            l = nxt["l"]
-            if not node:
-                q.pop(0)
-            else:
-                q.append({"n": node.left, "l": l + 1})
-                q.append({"n": node.right, "l": l + 1})
-                q.pop(0)
-                m = l
+            if n:
+                out = max(out, l)
+                stack.append([n.left, l + 1])
+                stack.append([n.right, l + 1])
 
-        return m
+        return out
 
 
 if __name__ == "__main__":
@@ -71,6 +104,6 @@ if __name__ == "__main__":
     # printTree(root)
 
     print(solution.maxDepth(root))
-    # print(solution.maxDepth(root2))
-    # print(solution.maxDepth(root3))
-    # print(solution.maxDepth(root4))
+    print(solution.maxDepth(root2))
+    print(solution.maxDepth(root3))
+    print(solution.maxDepth(root4))
