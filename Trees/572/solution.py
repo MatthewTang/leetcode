@@ -22,8 +22,9 @@ def printTree(root: TreeNode, level=0):
 
 class Solution:
     # sol 1, recursive
+    # time O(n * m), space O(n * m)
     def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
-        def compare(t1: Optional[TreeNode], t2: Optional[TreeNode]):
+        def isSametree(t1: Optional[TreeNode], t2: Optional[TreeNode]):
             if not t1 and not t2:
                 return True
             if not t1 or not t2:
@@ -31,14 +32,14 @@ class Solution:
             if t1.val != t2.val:
                 return False
 
-            return compare(t1.left, t2.left) and compare(t1.right, t2.right)
+            return isSametree(t1.left, t2.left) and isSametree(t1.right, t2.right)
 
         def _isSubtree(root, subRoot):
             if not root:
                 return False
 
             return (
-                compare(root, subRoot)
+                isSametree(root, subRoot)
                 or _isSubtree(root.left, subRoot)
                 or _isSubtree(root.right, subRoot)
             )
@@ -75,7 +76,6 @@ if __name__ == "__main__":
     root6 = TreeNode(4)
     root6.left = TreeNode(1)
     root6.right = TreeNode(2)
-
 
     # printTree(root)
     print(solution.isSubtree(root5, root6))
