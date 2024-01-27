@@ -24,22 +24,32 @@ class Solution:
     def lowestCommonAncestor(
         self, root: "TreeNode", p: "TreeNode", q: "TreeNode"
     ) -> "TreeNode":
-        def traverse(tree, p, q, res):
+        def fn(tree, p, q, res):
+            if len(res) > 0:
+                return
+
             if not tree:
                 return
 
-            if traverse(tree.left, p, q, res) and traverse(tree.right, p, q, res):
+            if fn(tree.left, p, q, res) and fn(tree.right, p, q, res):
                 res.append(tree)
                 return
+
+            if fn(tree.left, p, q, res) or fn(tree.right, p, q, res):
+                if tree.val == p.val or tree.val == q.val:
+                    res.append(tree)
+                    return
+
+                return True
 
             return tree.val == p.val or tree.val == q.val
 
         res = []
-        traverse(root, p, q, res)
+        fn(root, p, q, res)
 
-        print(res)
+        print("res::", res)
 
-        return 1
+        return res[0] if len(res) > 0 else None
 
 
 if __name__ == "__main__":
@@ -56,9 +66,8 @@ if __name__ == "__main__":
     root.right.left = TreeNode(7)
     root.right.right = TreeNode(9)
 
-    p = root.left
-    # q = root.right
-    q = root.left.right
+    p = root.left.right.right
+    q = root.left.right.left
 
     printTree(root)
     print(solution.lowestCommonAncestor(root, p, q))
