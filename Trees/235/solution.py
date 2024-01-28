@@ -1,6 +1,9 @@
 from typing import Optional
 from collections import deque
 
+# insight: Binary Search Tree
+# BST property, means that the left subtree is less than the root, and the right subtree is greater than the root
+
 
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
@@ -21,35 +24,52 @@ def printTree(root: TreeNode, level=0):
 
 
 class Solution:
+    # sol 1, recursive
+    # time O(n), since worst case we need to traverse all nodes
+    # space O(n), since we are using recursion
+    # def lowestCommonAncestor(
+    #     self, root: "TreeNode", p: "TreeNode", q: "TreeNode"
+    # ) -> "TreeNode":
+    #     def fn(tree, p, q, res):
+    #         if len(res) > 0:
+    #             return
+    #
+    #         if not tree:
+    #             return
+    #
+    #         if fn(tree.left, p, q, res) and fn(tree.right, p, q, res):
+    #             res.append(tree)
+    #             return
+    #
+    #         if fn(tree.left, p, q, res) or fn(tree.right, p, q, res):
+    #             if tree.val == p.val or tree.val == q.val:
+    #                 res.append(tree)
+    #                 return
+    #
+    #             return True
+    #
+    #         return tree.val == p.val or tree.val == q.val
+    #
+    #     res = []
+    #     fn(root, p, q, res)
+    #
+    #     print("res::", res)
+    #
+    #     return res[0] if len(res) > 0 else None
+
+    # sol 2, iterative, BST
+    # time O log(n), since we are traversing only one branch
+    # space O(1)
     def lowestCommonAncestor(
         self, root: "TreeNode", p: "TreeNode", q: "TreeNode"
     ) -> "TreeNode":
-        def fn(tree, p, q, res):
-            if len(res) > 0:
-                return
-
-            if not tree:
-                return
-
-            if fn(tree.left, p, q, res) and fn(tree.right, p, q, res):
-                res.append(tree)
-                return
-
-            if fn(tree.left, p, q, res) or fn(tree.right, p, q, res):
-                if tree.val == p.val or tree.val == q.val:
-                    res.append(tree)
-                    return
-
-                return True
-
-            return tree.val == p.val or tree.val == q.val
-
-        res = []
-        fn(root, p, q, res)
-
-        print("res::", res)
-
-        return res[0] if len(res) > 0 else None
+        while True:
+            if p.val > root.val and q.val > root.val:
+                root = root.right
+            elif p.val < root.val and q.val < root.val:
+                root = root.left
+            else:
+                return root
 
 
 if __name__ == "__main__":
@@ -66,7 +86,7 @@ if __name__ == "__main__":
     root.right.left = TreeNode(7)
     root.right.right = TreeNode(9)
 
-    p = root.left.right.right
+    p = root.right
     q = root.left.right.left
 
     printTree(root)
