@@ -27,23 +27,37 @@ def printTree(root: TreeNode, level=0):
 # - both the left and right subtree must also be binary search tree.
 class Solution:
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
-        def retMinMax(node: Optional[TreeNode]):
+        # def retMinMax(node: Optional[TreeNode]):
+        #     if not node:
+        #         return float("infinity"), -float("infinity")
+        #
+        #     rmin, rmax = retMinMax(node.right)
+        #     if not rmin > node.val:
+        #         return -float("infinity"), float("infinity")
+        #
+        #     lmin, lmax = retMinMax(node.left)
+        #     if not lmax < node.val:
+        #         return -float("infinity"), float("infinity")
+        #
+        #     return min(node.val, lmin), max(node.val, rmax)
+        #
+        # l, r = retMinMax(root)
+        # print(l, r)
+        # return not l == -float("infinity")
+
+        # neetcode sol
+        def valid(node, left, right):
             if not node:
-                return float("infinity"), -float("infinity")
+                return True
 
-            rmin, rmax = retMinMax(node.right)
-            if not rmin > node.val:
-                return -float("infinity"), float("infinity")
+            if not (left < node.val < right):
+                return False
 
-            lmin, lmax = retMinMax(node.left)
-            if not lmax < node.val:
-                return -float("infinity"), float("infinity")
+            return valid(node.left, left, node.val) and valid(
+                node.right, node.val, right
+            )
 
-            return min(node.val, lmin), max(node.val, rmax)
-
-        l, r = retMinMax(root)
-        print(l, r)
-        return not l == -float("infinity")
+        return valid(root, float("-inf"), float("inf"))
 
 
 if __name__ == "__main__":
