@@ -22,19 +22,45 @@ def printTree(root: TreeNode, level=0):
 
 class Solution:
     # recursive
-    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+    # time: O(n), space: O(n)
+    def _kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
         def t(node: Optional[TreeNode], q):
 
             if not node:
                 return
 
-            t(node.left,q)
+            t(node.left, q)
             q.append(node.val)
-            t(node.right,q)
+            if len(q) == k:
+                return node.val
+            t(node.right, q)
 
         q = []
         t(root, q)
-        return q[k-1]
+        return q[k - 1]
+
+    # iterative
+    def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+        curr = root
+        stack = [curr]
+        out = []
+        # n = 0
+
+        while curr and stack:
+            while curr.left:
+                curr = curr.left
+                stack.append(curr)
+            t = stack.pop()
+            # n += 1
+            # if n == k:
+            #     return curr.val
+
+            out.append(t.val)
+            if t.right:
+                stack.append(t.right)
+                curr = t.right
+
+        return out[k - 1]
 
 
 if __name__ == "__main__":
@@ -45,9 +71,17 @@ if __name__ == "__main__":
     root.right = TreeNode(4)
     root.left.right = TreeNode(2)
 
-    test1 = {"root": root, "k": 1}
+    root2 = TreeNode(5)
+    root2.left = TreeNode(3)
+    root2.right = TreeNode(6)
+    root2.left.left = TreeNode(2)
+    root2.left.right = TreeNode(4)
+    root2.left.left.left = TreeNode(1)
 
-    tests = [test1]
+    test1 = {"root": root, "k": 1}
+    test2 = {"root": root2, "k": 3}
+
+    tests = [test1, test2]
 
     for test in tests:
         print("---------------------------------------")
