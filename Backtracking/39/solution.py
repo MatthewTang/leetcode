@@ -9,22 +9,36 @@ class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
         res = []
 
-        def dfs(i: int, cur: List[int]) -> None:
-            total = reduce(lambda x, y: x + y, cur, 0)
+        # def dfs(i: int, cur: List[int]) -> None:
+        #     total = reduce(lambda x, y: x + y, cur, 0)
 
+        #     if total == target:
+        #         res.append(cur.copy())
+        #         return
+        #     if i >= len(candidates) or total > target:
+        #         return
+
+        #     cur.append(candidates[i])
+        #     dfs(i, cur)
+        #     cur.pop()
+        #     dfs(i + 1, cur)
+
+        # dfs(0, [])
+
+        def dfs(i: int, cur: List[int], total: int) -> None:
             if total == target:
                 res.append(cur.copy())
                 return
-            if i >= len(candidates) or total > target:
+            if total > target or i >= len(candidates):
                 return
 
             cur.append(candidates[i])
-            dfs(i, cur)
+            dfs(i, cur, total + candidates[i])
             cur.pop()
-            dfs(i + 1, cur)
+            dfs(i + 1, cur, total)
+            return
 
-        dfs(0, [])
-
+        dfs(0, [], 0)
         return res
 
 
