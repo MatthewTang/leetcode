@@ -6,6 +6,7 @@ from collections import deque
 
 
 class Solution:
+    # time: O(m*n*4^k), where m no. of row,, n no. of cols, k is word.length, space: O(min(k,m*n))
     def exist(self, board: List[List[str]], word: str) -> bool:
         ROW, COL = len(board), len(board[0])
         directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
