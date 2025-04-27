@@ -60,8 +60,8 @@ class TestSolution(unittest.TestCase):
         self.assertFalse(s.exist(board, word))
 
     def test4(self):
-        board = [["A","B","C","E"],["S","F","E","S"],["A","D","E","E"]]
-        word ="ABCESEEEFS"
+        board = [["A", "B", "C", "E"], ["S", "F", "E", "S"], ["A", "D", "E", "E"]]
+        word = "ABCESEEEFS"
         s = Solution()
         self.assertTrue(s.exist(board, word))
 
