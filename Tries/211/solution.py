@@ -31,12 +31,12 @@ class WordDictionary:
             if c == ".":
                 if i == len(word) - 1:
                     res = [
-                        curr.children[c].word for c in curr.children.keys()
+                        child.word for child in curr.children.values()
                     ]  # list max len 26
                     return True in res
                 else:
                     res = [
-                        dfs(curr.children[c], i + 1) for c in curr.children.keys()
+                        dfs(child, i + 1) for child in curr.children.values()
                     ]  # list max len 26
                     return True in res
             else:
