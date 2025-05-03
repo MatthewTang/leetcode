@@ -1,10 +1,41 @@
+from collections import deque
 import unittest
 from typing import List, Optional
 
 
 # 1616
 class Solution:
-    # dfs, O(V+E)
+    # # dfs, O(V+E)
+    # def countComponents(self, n: int, edges: List[List[int]]) -> int:
+    #     adj = [[] for _ in range(n)]  # O(V), no. of nodes
+    #     for a, b in edges:  # O(E), no. of edges
+    #         adj[a].append(b)
+    #         adj[b].append(a)
+    #
+    #     visited = set()
+    #
+    #     def dfs(curr):  # O(V+E) across all calls, visit each node and edge once
+    #         if curr in visited:
+    #             return
+    #
+    #         visited.add(curr)
+    #
+    #         for n in adj[curr]:
+    #             dfs(n)
+    #
+    #     curr = 0
+    #     res = 0
+    #     while len(visited) < n:  # O(V) iterations, triggers DFS for unvisited nodes
+    #         if curr in visited:
+    #             curr += 1
+    #             continue
+    #
+    #         res += 1
+    #         dfs(curr)
+    #
+    #     return res
+
+    # bfs
     def countComponents(self, n: int, edges: List[List[int]]) -> int:
         adj = [[] for _ in range(n)]  # O(V), no. of nodes
         for a, b in edges:  # O(E), no. of edges
@@ -13,24 +44,27 @@ class Solution:
 
         visited = set()
 
-        def dfs(curr):  # O(V+E) across all calls, visit each node and edge once
-            if curr in visited:
-                return
+        def bfs(src):
+            q = deque([src])
+            visited.add(src)
 
-            visited.add(curr)
-
-            for n in adj[curr]:
-                dfs(n)
+            while q:
+                curr = q.popleft()
+                for n in adj[curr]:
+                    if n in visited:
+                        continue
+                    visited.add(n)
+                    q.append(n)
 
         curr = 0
         res = 0
-        while len(visited) < n:  # O(V) iterations, triggers DFS for unvisited nodes
+        while len(visited) < n:
             if curr in visited:
                 curr += 1
                 continue
 
+            bfs(curr)
             res += 1
-            dfs(curr)
 
         return res
 
