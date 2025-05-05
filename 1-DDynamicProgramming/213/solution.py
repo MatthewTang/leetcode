@@ -60,30 +60,44 @@ class Solution:
     #
     #     return max(dfs(0, True), dfs(1, False), dfs(2, False))
 
-    # dp-bu, time: O(n), space: O(1)
+    # # dp-bu, time: O(n), space: O(1)
+    # def rob(self, nums: List[int]) -> int:
+    #     l = len(nums)
+    #
+    #     if l <= 3:
+    #         return max(nums)
+    #
+    #     # first
+    #     a, b = nums[l - 2], nums[l - 3]
+    #     i = l - 4
+    #     c = a + nums[i]
+    #     while i > 0:
+    #         i -= 1
+    #         a, b, c = b, c, nums[i] + max(a, b)
+    #
+    #     # second & third
+    #     x, y = nums[l - 1], nums[l - 2]
+    #     j = l - 3
+    #     z = x + nums[j]
+    #     while j > 1:
+    #         j -= 1
+    #         x, y, z = y, z, nums[j] + max(x, y)
+    #
+    #     return max(c, y, z)
+
+    # dp-bu(optimised), time: O(n), space: O(1)
     def rob(self, nums: List[int]) -> int:
-        l = len(nums)
+        def helper(_nums: List[int]) -> int:
+            l = len(_nums)
+            a, b = _nums[l - 1], _nums[l - 2]
+            i = l - 3
+            z = a + _nums[i]
+            while i >= 0:
+                i -= 1
+                a, b, z = b, z, _nums[i] + max(a, b)
+            return max(a, b)
 
-        if l <= 3:
-            return max(nums)
-
-        # first
-        a, b = nums[l - 2], nums[l - 3]
-        i = l - 4
-        c = a + nums[i]
-        while i > 0:
-            i -= 1
-            a, b, c = b, c, nums[i] + max(a, b)
-
-        # second & third
-        x, y = nums[l - 1], nums[l - 2]
-        j = l - 3
-        z = x + nums[j]
-        while j > 1:
-            j -= 1
-            x, y, z = y, z, nums[j] + max(x, y)
-
-        return max(c, y, z)
+        return max(helper(nums[1:]), helper(nums[:-1]))
 
 
 class Test(unittest.TestCase):
