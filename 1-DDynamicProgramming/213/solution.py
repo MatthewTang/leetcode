@@ -85,22 +85,36 @@ class Solution:
     #
     #     return max(c, y, z)
 
-    # dp-bu(optimised), time: O(n), space: O(1)
-    def rob(self, nums: List[int]) -> int:
-        def helper(_nums: List[int]) -> int:
-            l = len(_nums)
-            a, b = _nums[l - 1], _nums[l - 2]
-            i = l - 3
-            z = a + _nums[i]
-            while i >= 0:
-                i -= 1
-                a, b, z = b, z, _nums[i] + max(a, b)
-            return max(a, b)
+    # # dp-bu(optimised), time: O(n), space: O(1)
+    # def rob(self, nums: List[int]) -> int:
+    #     def helper(_nums: List[int]) -> int:
+    #         l = len(_nums)
+    #         a, b = _nums[l - 1], _nums[l - 2]
+    #         i = l - 3
+    #         z = a + _nums[i]
+    #         while i >= 0:
+    #             i -= 1
+    #             a, b, z = b, z, _nums[i] + max(a, b)
+    #         return max(a, b)
+    #
+    #     if len(nums) <= 3:
+    #         return max(nums)
+    #
+    #     return max(helper(nums[1:]), helper(nums[:-1]))
+
+    def rob(sefl, nums: List[int]) -> int:
+        def _rob(_nums: List[int]) -> int:
+            a, b = _nums[0], max(_nums[0], _nums[1])
+
+            for i in range(2, len(_nums)):
+                a, b = b, max(a + _nums[i], b)
+
+            return b
 
         if len(nums) <= 3:
             return max(nums)
 
-        return max(helper(nums[1:]), helper(nums[:-1]))
+        return max(_rob(nums[1:]), _rob(nums[:-1]))
 
 
 class Test(unittest.TestCase):
