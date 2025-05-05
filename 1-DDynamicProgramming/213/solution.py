@@ -97,6 +97,9 @@ class Solution:
                 a, b, z = b, z, _nums[i] + max(a, b)
             return max(a, b)
 
+        if len(nums) <= 3:
+            return max(nums)
+
         return max(helper(nums[1:]), helper(nums[:-1]))
 
 
@@ -232,6 +235,20 @@ class Test(unittest.TestCase):
         expected = 7102
         result = s.rob(nums)
         self.assertEqual(result, expected)
+
+    def test6(self):
+        s = Solution()
+        nums = [2, 3]
+        expected = 3
+        result = s.rob(nums)
+        self.assertIs(result, expected)
+
+    def test7(self):
+        s = Solution()
+        nums = [3]
+        expected = 3
+        result = s.rob(nums)
+        self.assertIs(result, expected)
 
 
 if __name__ == "__main__":
