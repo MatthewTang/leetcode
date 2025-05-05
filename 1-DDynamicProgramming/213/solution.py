@@ -218,7 +218,6 @@ class Test(unittest.TestCase):
         expected = 7102
         result = s.rob(nums)
         self.assertEqual(result, expected)
-        print(result)
 
 
 if __name__ == "__main__":
