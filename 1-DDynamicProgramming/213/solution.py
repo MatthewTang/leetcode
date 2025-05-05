@@ -4,7 +4,7 @@ from functools import lru_cache
 
 
 class Solution:
-    # # bf, time: O(2^n), space: O(n)
+    # # bf, time: O(2^(n/2)), space: O(n)
     # def rob(self, nums: List[int]) -> int:
     #     def dfs(i, first):
     #         if i >= len(nums):
