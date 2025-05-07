@@ -104,7 +104,7 @@ class Solution:
             print(e)
             print(sys.getrecursionlimit())
             print(dfs.cache_info())
-            print(f"RecursionError occurred at depth: {len(stack)}")
+            print(f"depth: {len(stack)}")
             return
 
 
