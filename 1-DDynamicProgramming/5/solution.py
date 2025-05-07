@@ -95,17 +95,12 @@ class Solution:
         try:
             i, j = dfs(0, len(s) - 1)
             res = s[i : j + 1]
-            print(sys.getrecursionlimit())
-            print(dfs.cache_info())
-            print(res)
             return res
         except Exception as e:
-            stack = traceback.extract_tb(sys.exc_info()[2])
             print(e)
             print(sys.getrecursionlimit())
             print(dfs.cache_info())
-            print(f"depth: {len(stack)}")
-            return
+            print(f"stack: {len(traceback.extract_tb(sys.exc_info()[2]))}")
 
 
 class Test(unittest.TestCase):
