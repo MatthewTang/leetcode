@@ -102,30 +102,59 @@ class Solution:
     #         print(dfs.cache_info())
     #         print(f"stack: {len(traceback.extract_tb(sys.exc_info()[2]))}")
 
-    # bf: O(n^3)
+    # # bf: O(n^3)
+    # def longestPalindrome(self, s: str) -> int:
+    #     # O(n)
+    #     def isPalidrome(i, j) -> bool:
+    #         while i < j:
+    #             if s[i] == s[j]:
+    #                 i += 1
+    #                 j -= 1
+    #             else:
+    #                 return False
+    #         return True
+    #
+    #     maxLen = 1
+    #     _i, _j = 0, 0
+    #     l = len(s)
+    #     # O(n^2)
+    #     for i in range(l):
+    #         for j in range(i + 1, l):
+    #             if isPalidrome(i, j):
+    #                 if j - i + 1 > maxLen:
+    #                     maxLen = j - i + 1
+    #                     _i, _j = i, j
+    #
+    #     return s[_i : _j + 1] # O(n)
+
+    # time: O(2n*n) = O(n^2)
     def longestPalindrome(self, s: str) -> int:
+        l = len(s)
+
         # O(n)
-        def isPalidrome(i, j) -> bool:
-            while i < j:
+        def _longestPalindrome(i, j):
+            _i, _j = 0, 0
+            while i >= 0 and j < l:
                 if s[i] == s[j]:
-                    i += 1
-                    j -= 1
+                    _i, _j = i, j
+                    i -= 1
+                    j += 1
                 else:
-                    return False
-            return True
+                    break
+            return _i, _j
 
         maxLen = 1
-        _i, _j = 0, 0
-        l = len(s)
-        # O(n^2)
-        for i in range(l):
-            for j in range(i + 1, l):
-                if isPalidrome(i, j):
-                    if j - i + 1 > maxLen:
-                        maxLen = j - i + 1
-                        _i, _j = i, j
+        ri, rj = 0, 0
+        # O(2n)
+        for i in range(l - 1):
+            for j in range(i + 1, i + 3):
+                if j < l:
+                    _i, _j = _longestPalindrome(i, j)
+                    if _j - _i + 1 > maxLen:
+                        maxLen = _j - _i + 1
+                        ri, rj = _i, _j
 
-        return s[_i : _j + 1]
+        return s[ri : rj + 1] # O(n)
 
 
 class Test(unittest.TestCase):
