@@ -145,7 +145,7 @@ class Solution:
 
         maxLen = 1
         ri, rj = 0, 0
-        # O(2n)
+        # O(n), 2 iteration of j per i
         for i in range(l - 1):
             for j in range(i + 1, i + 3):
                 if j < l:
