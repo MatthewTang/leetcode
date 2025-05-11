@@ -50,6 +50,59 @@ class Solution:
     #     # print(res)
     #     return res
 
+    # # time: O(3^n)
+    # def longestPalindrome(self, s: str) -> str:
+    #     sys.setrecursionlimit(2000)
+    #
+    #     cache = [[-1] * len(s) for _ in range(len(s))]
+    #
+    #     def dfs(i: int, j: int):
+    #         if cache[i][j] != -1:
+    #             return cache[i][j]
+    #
+    #         if i == j:
+    #             cache[i][j] = (i, j)
+    #             return cache[i][j]
+    #         si, sj = s[i], s[j]
+    #         if si == sj:
+    #             if abs(i - j) == 1:
+    #                 cache[i][j] = (i, j)
+    #                 return cache[i][j]
+    #             else:
+    #                 _i, _j = dfs(i + 1, j - 1)
+    #                 if _i == i + 1 and _j == j - 1:
+    #                     _i, _j = i, j
+    #                 else:
+    #                     _i, _j = _i, _j
+    #
+    #                 li, lj = dfs(i, j - 1)
+    #                 ri, rj = dfs(i + 1, j)
+    #                 dl = abs(li - lj)
+    #                 dr = abs(ri - rj)
+    #                 d_ = abs(_i - _j)
+    #                 dmax = max(dl, dr, d_)
+    #                 if dl == dmax:
+    #                     cache[i][j] = (li, lj)
+    #                 if dr == dmax:
+    #                     cache[i][j] = (ri, rj)
+    #                 else:
+    #                     cache[i][j] = (_i, _j)
+    #                 return cache[i][j]
+    #         else:
+    #             li, lj = dfs(i, j - 1)
+    #             ri, rj = dfs(i + 1, j)
+    #             dl = abs(li - lj)
+    #             dr = abs(ri - rj)
+    #             if dl > dr:
+    #                 cache[i][j] = (li, lj)
+    #             else:
+    #                 cache[i][j] = (ri, rj)
+    #             return cache[i][j]
+    #
+    #     i, j = dfs(0, len(s) - 1)
+    #     res = s[i : j + 1]
+    #     return res
+
     # # time: O(n^2)
     # def longestPalindrome(self, s: str) -> str:
     #     sys.setrecursionlimit(2000)
@@ -154,7 +207,7 @@ class Solution:
                         maxLen = _j - _i + 1
                         ri, rj = _i, _j
 
-        return s[ri : rj + 1] # O(n)
+        return s[ri : rj + 1]  # O(n)
 
 
 class Test(unittest.TestCase):
@@ -219,6 +272,7 @@ class Test(unittest.TestCase):
         s = "civilwartestingwhetherthatnaptionoranynartionsoconceivedandsodedicatedcanlongendureWeareqmetonagreatbattlefiemldoftzhatwarWehavecometodedicpateaportionofthatfieldasafinalrestingplaceforthosewhoheregavetheirlivesthatthatnationmightliveItisaltogetherfangandproperthatweshoulddothisButinalargersensewecannotdedicatewecannotconsecratewecannothallowthisgroundThebravelmenlivinganddeadwhostruggledherehaveconsecrateditfaraboveourpoorponwertoaddordetractTgheworldadswfilllittlenotlenorlongrememberwhatwesayherebutitcanneverforgetwhattheydidhereItisforusthelivingrathertobededicatedheretotheulnfinishedworkwhichtheywhofoughtherehavethusfarsonoblyadvancedItisratherforustobeherededicatedtothegreattdafskremainingbeforeusthatfromthesehonoreddeadwetakeincreaseddevotiontothatcauseforwhichtheygavethelastpfullmeasureofdevotionthatweherehighlyresolvethatthesedeadshallnothavediedinvainthatthisnationunsderGodshallhaveanewbirthoffreedomandthatgovernmentofthepeoplebythepeopleforthepeopleshallnotperishfromtheearth"
         expected = ["ranynar"]
         result = solution.longestPalindrome(s)
+        print(result)
         self.assertTrue(result in expected)
 
     def test10(self):
