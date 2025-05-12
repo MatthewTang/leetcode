@@ -57,6 +57,25 @@ class Solution:
     #
     #     return dfs(0, 1) + dfs(0, 2)
 
+    def numDecodings(self, s: str) -> int:
+        dp = {len(s): 1}
+
+        def dfs(i):
+            if i in dp:
+                return dp[i]
+            if s[i] == "0":
+                return 0
+
+            res = dfs(i + 1)
+            if i + 1 < len(s) and (
+                s[i] == "1" or s[i] == "2" and s[i + 1] in "0123456"
+            ):
+                res += dfs(i + 2)
+            dp[i] = res
+            return res
+
+        return dfs(0)
+
     # # # dp(bu), time/space: O(n)
     # def numDecodings(self, s):
     #     if len(s) == 1:
@@ -77,26 +96,26 @@ class Solution:
     #
     #     return dp[0]
 
-    # # dp(bu), time: O(n), space: O(1)
-    def numDecodings(self, s):
-        if len(s) == 1:
-            return 1 if int(s) > 0 else 0
-
-        l = len(s)
-        prev2 = 1 if int(s[-1]) > 0 else 0
-        prev1 = 0 if int(s[-2]) == 0 else (prev2 + 1 if int(s[-2:]) < 27 else prev2)
-
-        for i in range(l - 3, -1, -1):
-            prev = 0
-            v1 = int(s[i]) > 0
-            v2 = v1 and int(s[i : i + 2]) < 27
-            if v1:
-                prev += prev1
-            if v2:
-                prev += prev2
-            prev1, prev2 = prev, prev1
-
-        return prev1
+    # # # dp(bu), time: O(n), space: O(1)
+    # def numDecodings(self, s):
+    #     if len(s) == 1:
+    #         return 1 if int(s) > 0 else 0
+    #
+    #     l = len(s)
+    #     prev2 = 1 if int(s[-1]) > 0 else 0
+    #     prev1 = 0 if int(s[-2]) == 0 else (prev2 + 1 if int(s[-2:]) < 27 else prev2)
+    #
+    #     for i in range(l - 3, -1, -1):
+    #         prev = 0
+    #         v1 = int(s[i]) > 0
+    #         v2 = v1 and int(s[i : i + 2]) < 27
+    #         if v1:
+    #             prev += prev1
+    #         if v2:
+    #             prev += prev2
+    #         prev1, prev2 = prev, prev1
+    #
+    #     return prev1
 
 
 class Test(unittest.TestCase):
@@ -153,6 +172,13 @@ class Test(unittest.TestCase):
         sol = Solution()
         s = "1234"
         expected = 3
+        result = sol.numDecodings(s)
+        self.assertEqual(result, expected)
+
+    def test8(self):
+        sol = Solution()
+        s = "1210"
+        expected = 2
         result = sol.numDecodings(s)
         self.assertEqual(result, expected)
 
