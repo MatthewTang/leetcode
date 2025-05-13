@@ -5,19 +5,16 @@ from typing import List, Optional
 class Solution:
     # bf, O(c^a), given c no. of coins, a amount
     def coinChange(self, coins: List[int], amount: int) -> int:
-        def dfs(c, remaining):
+        def dfs(coin, remaining):
             if remaining == 0:
                 return 0
 
-            if c > remaining:
+            if coin > remaining:
                 return float("infinity")
 
-            if c == remaining:
-                return 1
-
             _count = float("infinity")
-            for coin in coins:
-                _count = min(dfs(coin, remaining - c), _count)
+            for _coin in coins:
+                _count = min(dfs(_coin, remaining - coin), _count)
 
             return _count + 1
 
@@ -27,56 +24,83 @@ class Solution:
             res = min(res, count)
         return -1 if res == float("infinity") else res
 
-    def coinChange(self, coins: List[int], amount: int) -> int:
-        cache = {}
-
-        def dfs(c, remaining):
-            if remaining == 0:
-                return 0
-
-            if c > remaining:
-                return float("infinity")
-
-            if c == remaining:
-                return 1
-
-            if (c, remaining) in cache:
-                return cache[c, remaining]
-
-            _count = float("infinity")
-            for coin in coins:
-                _count = min(dfs(coin, remaining - c), _count)
-
-            cache[c, remaining] = _count + 1
-            return cache[c, remaining]
-
-        res = float("infinity")
-        for coin in coins:
-            count = dfs(coin, amount)
-            res = min(res, count)
-        return -1 if res == float("infinity") else res
-
-    # # incorrect: not necessary max out larger coins first
     # def coinChange(self, coins: List[int], amount: int) -> int:
-    #     coins.sort()
-    #     count = 0
-    #     i = len(coins) - 1
-    #     while amount > 0 and i >= 0:
-    #         coin = coins[i]
-    #         remaining = amount - coin
+    #     cache = {}
+    #
+    #     def dfs(c, remaining):
     #         if remaining == 0:
-    #             count += 1
-    #             break
-    #         if remaining > 0:
-    #             count += 1
-    #             amount = remaining
-    #             continue
-    #         if remaining < 0:
-    #             if i == 0:
-    #                 count = -1
-    #                 break
-    #             i -= 1
-    #     return count
+    #             return 0
+    #
+    #         if c > remaining:
+    #             return float("infinity")
+    #
+    #         if (c, remaining) in cache:
+    #             return cache[c, remaining]
+    #
+    #         _count = float("infinity")
+    #         for coin in coins:
+    #             _count = min(dfs(coin, remaining - c), _count)
+    #
+    #         cache[c, remaining] = _count + 1
+    #         return cache[c, remaining]
+    #
+    #     res = float("infinity")
+    #     for coin in coins:
+    #         count = dfs(coin, amount)
+    #         res = min(res, count)
+    #     return -1 if res == float("infinity") else res
+
+    # def coinChange(self, coins: List[int], amount: int) -> int:
+    #     def dfs(coins, amount):
+    #         if amount == 0:
+    #             return 0
+    #         if amount < 0:
+    #             return float("infinity")
+    #         if len(coins) == 0:
+    #             return float("infinity")
+    #         left = dfs(coins, amount - coins[0]) + 1
+    #         right = dfs(coins[1:], amount)
+    #         return min(left, right)
+    #     res = dfs(coins, amount)
+    #     return -1 if res == float("infinity") else res
+
+    # def coinChange(self, coins: List[int], amount: int) -> int:
+    #     def dfs(i, amount):
+    #         if amount == 0:
+    #             return 0
+    #         if amount < 0:
+    #             return float("infinity")
+    #         if i == len(coins):
+    #             return float("infinity")
+    #         left = dfs(i, amount - coins[i]) + 1
+    #         right = dfs(i + 1, amount)
+    #         return min(left, right)
+    #
+    #     res = dfs(0, amount)
+    #     return -1 if res == float("infinity") else res
+    #
+    # def coinChange(self, coins: List[int], amount: int) -> int:
+    #     cache = {}
+    #
+    #     def dfs(i, amount):
+    #         if amount == 0:
+    #             return 0
+    #         if amount < 0:
+    #             return float("infinity")
+    #         if i == len(coins):
+    #             return float("infinity")
+    #         if (i, amount) in cache:
+    #             return cache[i, amount]
+    #
+    #         left = dfs(i, amount - coins[i]) + 1
+    #         right = dfs(i + 1, amount)
+    #
+    #         cache[i, amount] = min(left, right)
+    #
+    #         return cache[i, amount]
+    #
+    #     res = dfs(0, amount)
+    #     return -1 if res == float("infinity") else res
 
 
 class Test(unittest.TestCase):
@@ -119,15 +143,15 @@ class Test(unittest.TestCase):
     #     expected = 4
     #     result = s.coinChange(coins, amount)
     #     self.assertIs(result, expected)
-
-    def test6(self):
-        s = Solution()
-        coins = [186, 419, 83, 408]
-        amount = 6249
-        expected = 20
-        result = s.coinChange(coins, amount)
-        self.assertIs(result, expected)
-
+    #
+    # def test6(self):
+    #     s = Solution()
+    #     coins = [186, 419, 83, 408]
+    #     amount = 6249
+    #     expected = 20
+    #     result = s.coinChange(coins, amount)
+    #     self.assertIs(result, expected)
+    #
     # def test7(self):
     #     s = Solution()
     #     coins = [70, 177, 394, 428, 427, 437, 176, 145, 83, 370]
@@ -135,6 +159,22 @@ class Test(unittest.TestCase):
     #     expected = 18
     #     result = s.coinChange(coins, amount)
     #     self.assertIs(result, expected)
+    #
+    # def test8(self):
+    #     s = Solution()
+    #     coins = [413, 213, 453, 20, 150, 321, 254, 396, 487, 234]
+    #     amount = 5629
+    #     expected = 13
+    #     result = s.coinChange(coins, amount)
+    #     self.assertIs(result, expected)
+
+    def test9(self):
+        s = Solution()
+        coins = [2]
+        amount = 3
+        expected = -1
+        result = s.coinChange(coins, amount)
+        self.assertIs(result, expected)
 
 
 if __name__ == "__main__":
