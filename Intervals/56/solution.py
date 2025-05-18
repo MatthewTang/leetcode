@@ -5,7 +5,7 @@ from typing import List, Optional
 class Solution:
     # O(n*log(n))
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-        intervals.sort()
+        intervals.sort(key=lambda pair: pair[0])
         res = []
         ps, pe = intervals[0]
 
