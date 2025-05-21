@@ -4,13 +4,13 @@ from typing import List, Optional
 
 class Solution:
     def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
-        intervals.sort(key=lambda p: (p[1], -p[0]))
+        intervals.sort(key=lambda p: p[1])
         res = 0
-        ps, pe = intervals[0]
+        _, pe = intervals[0]
 
         for s, e in intervals[1:]:
             if pe <= s:
-                ps, pe = s, e
+                pe = e
             else:
                 pe = min(pe, e)
                 res += 1
