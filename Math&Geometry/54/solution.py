@@ -3,41 +3,77 @@ from typing import List, Optional
 
 
 class Solution:
-    # dfs, time/space: O(m*n)
+    # # dfs, time/space: O(m*n)
+    # def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+    #     res = []
+    #     visited = set()
+    #     ROW, COL = len(matrix), len(matrix[0])
+    #     directions = ((1, 0), (-1, 0), (0, 1), (0, -1))
+    #
+    #     def dfs(i, j):
+    #         visited.add((i, j))
+    #         res.append(matrix[i][j])
+    #         up, down, left, right = (
+    #             helper(i - 1, j),
+    #             helper(i + 1, j),
+    #             helper(i, j - 1),
+    #             helper(i, j + 1),
+    #         )
+    #         if down and right:
+    #             dfs(i, j + 1)
+    #         if down and left:
+    #             dfs(i + 1, j)
+    #         if up and left:
+    #             dfs(i, j - 1)
+    #         if up and right:
+    #             dfs(i - 1, j)
+    #
+    #         for dr, dc in directions:
+    #             if helper(i + dr, j + dc):
+    #                 dfs(i + dr, j + dc)
+    #
+    #     def helper(i, j):
+    #         if i < 0 or j < 0 or i >= ROW or j >= COL or (i, j) in visited:
+    #             return False
+    #         return True
+    #
+    #     dfs(0, 0)
+    #     return res
+
+    # iteration: time: O(m*n), space: O(1)
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
         res = []
-        visited = set()
-        ROW, COL = len(matrix), len(matrix[0])
-        directions = ((1, 0), (-1, 0), (0, 1), (0, -1))
+        left, right = 0, len(matrix[0])
+        top, bottom = 0, len(matrix)
 
-        def dfs(i, j):
-            visited.add((i, j))
-            res.append(matrix[i][j])
-            up, down, left, right = (
-                helper(i - 1, j),
-                helper(i + 1, j),
-                helper(i, j - 1),
-                helper(i, j + 1),
-            )
-            if down and right:
-                dfs(i, j + 1)
-            if down and left:
-                dfs(i + 1, j)
-            if up and left:
-                dfs(i, j - 1)
-            if up and right:
-                dfs(i - 1, j)
+        def stop(left, right, top, bottom):
+            return left >= right or top >= bottom
 
-            for dr, dc in directions:
-                if helper(i + dr, j + dc):
-                    dfs(i + dr, j + dc)
+        while 1:
+            for i in range(left, right):
+                res.append(matrix[top][i])
+            top += 1
+            if stop(left, right, top, bottom):
+                break
 
-        def helper(i, j):
-            if i < 0 or j < 0 or i >= ROW or j >= COL or (i, j) in visited:
-                return False
-            return True
+            for i in range(top, bottom):
+                res.append(matrix[i][right - 1])
+            right -= 1
+            if stop(left, right, top, bottom):
+                break
 
-        dfs(0, 0)
+            for i in range(right - 1, left - 1, -1):
+                res.append(matrix[bottom - 1][i])
+            bottom -= 1
+            if stop(left, right, top, bottom):
+                break
+
+            for i in range(bottom - 1, top - 1, -1):
+                res.append(matrix[i][left])
+            left += 1
+            if stop(left, right, top, bottom):
+                break
+
         return res
 
 
