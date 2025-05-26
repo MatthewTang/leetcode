@@ -57,6 +57,13 @@ class Test(unittest.TestCase):
         result = s.maxProduct(nums)
         self.assertIs(result, expected)
 
+    def test5(self):
+        s = Solution()
+        nums = [-2, 0, 2, 5]
+        expected = 10
+        result = s.maxProduct(nums)
+        self.assertIs(result, expected)
+
 
 if __name__ == "__main__":
     unittest.main()
