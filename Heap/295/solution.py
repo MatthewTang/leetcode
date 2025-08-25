@@ -43,8 +43,8 @@ class MedianFinder:
 #
 #     # O(nlogn)
 #     def addNum(self, num: int) -> None:
-#         self.l.append(num)
-#         self.l.sort()
+#         self.l.append(num) # O(1)
+#         self.l.sort() # O(nlogn)
 #
 #     # O(1)
 #     def findMedian(self) -> float:
